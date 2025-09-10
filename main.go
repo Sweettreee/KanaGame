@@ -1,12 +1,14 @@
 package main
 
 import (
+	"KanaGame/mysqlclient"
 	"KanaGame/redisclient"
 	"fmt"
 )
 
 func main() {
 	redisclient.InitRedis("localhost:6379", "", 0)
+	mysqlclient.InitMysql()
 
 	err := redisclient.RDB.Set(redisclient.Ctx, "greeting", "Hello Go Redis", 0).Err()
 	if err != nil {
