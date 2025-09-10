@@ -16,7 +16,7 @@ func main() {
 	}
 
 	redisclient.InitRedis(fmt.Sprintf("%v:%v", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT")), os.Getenv("REDIS_PASSWORD"), 0)
-	mysqlclient.InitMysql(os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST"), os.Getenv("MYSQL_DB"), os.Getenv("MYSQL_POST"))
+	mysqlclient.InitMysql(os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST"), os.Getenv("MYSQL_DB"), os.Getenv("MYSQL_PORT"))
 
 	err = redisclient.RDB.Set(redisclient.Ctx, "greeting", "Hello Go Redis", 0).Err()
 	if err != nil {
