@@ -4,13 +4,21 @@ import (
 	"KanaGame/mysqlclient"
 	"KanaGame/redisclient"
 	"fmt"
+	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	redisclient.InitRedis("localhost:6379", "", 0)
-	mysqlclient.InitMysql()
+	err := godotenv.Load()
+	if err != nil {
+		panic(fmt.Sprintf(".env파일 불러오기 실패: %v", err))
+	}
 
-	err := redisclient.RDB.Set(redisclient.Ctx, "greeting", "Hello Go Redis", 0).Err()
+	redisclient.InitRedis(fmt.Sprintf("%v:%v", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT")), os.Getenv("REDIS_PASSWORD"), 0)
+	mysqlclient.InitMysql(os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST"), os.Getenv("MYSQL_DB"), os.Getenv("MYSQL_POST"))
+
+	err = redisclient.RDB.Set(redisclient.Ctx, "greeting", "Hello Go Redis", 0).Err()
 	if err != nil {
 		panic(err)
 	}
