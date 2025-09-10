@@ -3,13 +3,10 @@ package main
 import (
 	"KanaGame/redisclient"
 	"fmt"
-	"log"
 )
 
 func main() {
-	log.Println("starting...")
 	redisclient.InitRedis("localhost:6379", "", 0)
-	log.Println("connected")
 
 	err := redisclient.RDB.Set(redisclient.Ctx, "greeting", "Hello Go Redis", 0).Err()
 	if err != nil {
