@@ -15,11 +15,11 @@ func InitMysql(user, password, host, dbname, port string) {
 
 	MDB, err := sql.Open("mysql", dsn)
 	if err != nil {
-		panic(fmt.Sprintf("Mysql 연결 실패: %v, %v", err, dsn))
+		panic(fmt.Sprintf("Mysql 연결 실패: %v", err))
 	}
 
 	if err := MDB.Ping(); err != nil {
-		panic(fmt.Sprintf("Mysql 연결 실패: %v, %v", err, dsn))
+		panic(fmt.Sprintf("Mysql 연결 실패: %v", err))
 	}
 	log.Println("Mysql 연결 성공")
 }
