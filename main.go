@@ -6,9 +6,8 @@ import (
 )
 
 func main() {
-	redisclient.InitRedis("localhost:6379", "", 0)
-
 	fmt.Println("starting...")
+	redisclient.InitRedis("localhost:6379", "", 0)
 
 	err := redisclient.RDB.Set(redisclient.Ctx, "greeting", "Hello Go Redis", 0).Err()
 	if err != nil {
