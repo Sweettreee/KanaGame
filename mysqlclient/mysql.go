@@ -10,7 +10,7 @@ import (
 
 var MDB *sql.DB
 
-func initMysql() {
+func InitMysql() {
 	MDB, err := sql.Open("mysql", "root@tcp(localhost:3306)/KanaGame")
 	if err != nil {
 		panic(fmt.Sprintf("Mysql 연결 실패: %v", err))
