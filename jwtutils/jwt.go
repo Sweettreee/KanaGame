@@ -26,7 +26,7 @@ func CreateAccessToken(uid int) (string, error) { // 패키지 외부에서 사�
 			},
 		})
 
-	tokenString, err := token.SignedString(secretkey) // secretekey
+	tokenString, err := token.SignedString(secretkey)
 	if err != nil {
 		return "", err
 	}
@@ -85,7 +85,6 @@ func RefreshAccessToken(refreshToken string) (string, error) {
 		return "", err
 	}
 
-	// 2️⃣ Claims 파싱
 	claims := &Claims{}
 	token, _ := jwt.ParseWithClaims(refreshToken, claims, func(t *jwt.Token) (interface{}, error) {
 		return secretkey, nil
