@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -11,11 +12,16 @@ import (
 var RDB *redis.Client
 var Ctx = context.Background()
 
-func InitRedis(addr, password string, db int) {
+func InitRedis() *redis.Client {
+
+	if RDB != nil {
+		return RDB
+	}
+
 	RDB = redis.NewClient(&redis.Options{
-		Addr:     addr,
-		Password: password,
-		DB:       db,
+		Addr:     os.Getenv("REDIS_HOST") + ":" + os.Getenv("REDIS_PORT"),
+		Password: os.Getenv("REDIS_PASSWORD"),
+		DB:       0,
 	})
 
 	pong, err := RDB.Ping(Ctx).Result()
@@ -23,4 +29,5 @@ func InitRedis(addr, password string, db int) {
 		panic(fmt.Sprintf("Redis 연결 실패: %v", err))
 	}
 	log.Println("Redis 연결 성공:", pong)
+	return RDB
 }
