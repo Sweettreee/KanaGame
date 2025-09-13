@@ -22,12 +22,12 @@ func InitMysql() *sql.DB {
 
 	var err error
 
-	StmtList.InsertUser, err = MDB.Prepare("INSERT INTO users (username, password) VALUES (?, ?)")
+	StmtList.InsertUser, err = MDB.Prepare("INSERT INTO users (login_id, login_pw, username) VALUES (?, ?, ?)")
 	if err != nil {
 		log.Fatalf("InsertUser 문 준비 실패: %v", err)
 	}
 
-	StmtList.LoginUser, err = MDB.Prepare("SELECT id, username, password FROM users WHERE username = ?")
+	StmtList.LoginUser, err = MDB.Prepare("SELECT uid, login_id, username, password FROM users WHERE username = ?")
 	if err != nil {
 		log.Fatalf("LoginUser 문 준비 실패: %v", err)
 	}
