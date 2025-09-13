@@ -20,9 +20,6 @@ func CreateToken(uid string) (string, error) { // 패키지 외부에서 사용�
 		"exp" : time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	// os.Getenv("JWTSCERETKEY")
-	// fmt.Println(os.Getenv("JWTSCERETKEY"));
-
 	tokenString, err := token.SignedString(secretkey) // secretekey
 	if err != nil {
 		return "",err
