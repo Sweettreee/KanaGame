@@ -9,14 +9,14 @@ import (
 )
 
 func main() {
-
 	err := godotenv.Load()
 	if err != nil {
 		panic(fmt.Sprintf(".env파일 불러오기 실패: %v", err))
 	}
 
 	RDB := redisclient.InitRedis()
-	mysqlclient.InitMysql()
+	//mysqlclient.InitMysql()
+	mysqlclient.GetMysqlConnection()
 
 	err = RDB.Set(redisclient.Ctx, "greeting", "Hello Go Redis", 0).Err()
 	if err != nil {
