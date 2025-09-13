@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -16,6 +17,7 @@ type _StmtList struct {
 
 var StmtList _StmtList
 var MDB *sql.DB
+var once sync.Once
 
 func InitMysql() *sql.DB {
 	GetMysqlConnection()
@@ -36,21 +38,26 @@ func InitMysql() *sql.DB {
 }
 
 func GetMysqlConnection() *sql.DB {
+	once.Do(func() {
+		dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
+			os.Getenv("MYSQL_USER"),
+			os.Getenv("MYSQL_PASSWORD"),
+			os.Getenv("MYSQL_HOST"),
+			os.Getenv("MYSQL_PORT"),
+			os.Getenv("MYSQL_DB"),
+		)
 
-	if MDB != nil {
-		return MDB
-	}
+		MDB, err := sql.Open("mysql", dsn)
+		if err != nil {
+			panic(fmt.Sprintf("Mysql 연결 실패: %v", err))
+		}
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST"), os.Getenv("MYSQL_PORT"), os.Getenv("MYSQL_DB"))
+		if err := MDB.Ping(); err != nil {
+			panic(fmt.Sprintf("Mysql 연결 실패: %v", err))
+		}
 
-	MDB, err := sql.Open("mysql", dsn)
-	if err != nil {
-		panic(fmt.Sprintf("Mysql 연결 실패: %v", err))
-	}
+		log.Println("Mysql 연결 성공")
+	})
 
-	if err := MDB.Ping(); err != nil {
-		panic(fmt.Sprintf("Mysql 연결 실패: %v", err))
-	}
-	log.Println("Mysql 연결 성공")
 	return MDB
 }
