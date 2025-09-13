@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"time"
 	"github.com/golang-jwt/jwt/v5"
+	"os"
 ) // v5 문서의 API와 예제 기준
 
-var secretKey = []byte("secret-key")
+// var secretKey = []byte("secret-key") 로컬에서 돌릴 때 사용
+var secretkey = os.Getenv("JWTSCERETKEY");
 
 func CreateToken(uid string) (string, error) { // 패키지 외부에서 사용하려면 식별자를 대문자로 시작해 export해야 함
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, 
@@ -21,7 +23,7 @@ func CreateToken(uid string) (string, error) { // 패키지 외부에서 사용�
 	// os.Getenv("JWTSCERETKEY")
 	// fmt.Println(os.Getenv("JWTSCERETKEY"));
 
-	tokenString, err := token.SignedString(secretKey) // secretekey
+	tokenString, err := token.SignedString(secretkey) // secretekey
 	if err != nil {
 		return "",err
 	}
