@@ -1,31 +1,34 @@
 package main
 
 import (
-	"KanaGame/mysqlclient"
-	"KanaGame/redisclient"
+	mysql "KanaGame/mysqlclient"
+	redis "KanaGame/redisclient"
+	"KanaGame/router"
 	"fmt"
+	"os"
 
 	"github.com/joho/godotenv"
 )
 
-func main() {
+func Init() {
+	// .env 파일 데이터 가져오기
 	err := godotenv.Load()
 	if err != nil {
 		panic(fmt.Sprintf(".env파일 불러오기 실패: %v", err))
 	}
 
-	RDB := redisclient.InitRedis()
-	//mysqlclient.InitMysql()
-	mysqlclient.GetMysqlConnection()
+	// Mysql 세팅하기
+	mysql.InitMysql()
 
-	err = RDB.Set(redisclient.Ctx, "greeting", "Hello Go Redis", 0).Err()
-	if err != nil {
-		panic(err)
-	}
+	// Redis 세팅하기
+	redis.InitRedis()
+}
 
-	val, err := RDB.Get(redisclient.Ctx, "greeting").Result()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Redis에서 가져온 값:", val)
+func main() {
+	Init()
+
+	port := os.Getenv("SERVER_PORT")
+
+	r := router.SetupRouter()
+	r.Run(":" + port)
 }
