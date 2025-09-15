@@ -20,7 +20,7 @@ var MDB *sql.DB
 var once sync.Once
 
 func InitMysql() *sql.DB {
-	MDB = GetMysqlConnection()
+	GetMysqlConnection()
 
 	var err error
 
@@ -47,7 +47,8 @@ func GetMysqlConnection() *sql.DB {
 			os.Getenv("MYSQL_DB"),
 		)
 
-		MDB, err := sql.Open("mysql", dsn)
+		mdb, err := sql.Open("mysql", dsn)
+		MDB = mdb
 		if err != nil {
 			panic(fmt.Sprintf("Mysql 연결 실패: %v", err))
 		}
