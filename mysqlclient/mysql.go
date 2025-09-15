@@ -24,7 +24,7 @@ func InitMysql() *sql.DB {
 
 	var err error
 
-	StmtList.InsertUser, err = MDB.Prepare("INSERT INTO users (login_id, login_pw, username) VALUES (?, ?, ?)")
+	StmtList.InsertUser, err = MDB.Prepare("INSERT INTO users (login_id, login_pw, username) VALUES (?, sha2(?, 256), ?)")
 	if err != nil {
 		log.Fatalf("InsertUser 문 준비 실패: %v", err)
 	}
