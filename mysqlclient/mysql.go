@@ -29,7 +29,7 @@ func InitMysql() *sql.DB {
 		log.Fatalf("InsertUser 문 준비 실패: %v", err)
 	}
 
-	StmtList.LoginUser, err = MDB.Prepare("SELECT uid, login_id, username, password FROM User WHERE username = ?")
+	StmtList.LoginUser, err = MDB.Prepare("SELECT UID, login_id, login_pw, username FROM User WHERE username = ?")
 	if err != nil {
 		log.Fatalf("LoginUser 문 준비 실패: %v", err)
 	}
