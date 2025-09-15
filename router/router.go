@@ -8,6 +8,7 @@ import (
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+	r.RedirectTrailingSlash = false
 	api := r.Group("/api")
 	test.RegisterApiRouter(api)
 
