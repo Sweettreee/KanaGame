@@ -2,6 +2,7 @@
 package websocket
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -41,25 +42,38 @@ func (s *Server) GetOrCreateRoom(roomID string) *Room {
 	}
 
 	room = NewRoom(roomID)
+	go room.Run(s)
 	s.Rooms[roomID] = room
+	log.Println("Create Room: ", room.ID)
 	return room
 }
 
-func (s *Server) RemoveRoomIfEmpty(r *Room) {
+func (s *Server) RemoveRoomIfEmpty(r *Room) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	room, ok := s.Rooms[r.ID]
 	if !ok {
-		return
+		return false
 	}
 
 	if len(room.clients) == 0 {
 		r.Close()
 		delete(s.Rooms, r.ID)
+		log.Println("Close Room: ", r.ID)
+		return true
 	}
+	return false
 }
 
+// 테스트용 임시 프로세스 Room.Run 메소스내부의 processMsgQueue메소드의 위치도 이후 변경 필요.
+func process(RoomId string, MsgData MessageData) string {
+	result := fmt.Sprintf("[%s]: %s", RoomId, MsgData.Content)
+	log.Println(result)
+	return result
+}
+
+// 테스트용 핸들러
 func (s *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request, roomID string) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -76,8 +90,7 @@ func (s *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request, roomID 
 	room.register <- client
 
 	go client.ReadLoop(func(c *Connection, msg []byte) {
-		// 방 전체에 메시지 브로드캐스트
-		room.broadcast <- msg
+		room.msgQueue <- MessageData{client, string(msg)}
 	})
 
 	go client.WriteLoop()
