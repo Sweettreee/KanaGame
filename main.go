@@ -18,7 +18,8 @@ func Init() {
 	}
 
 	// Mysql 세팅하기
-	mysql.InitMysql()
+	// mysql.InitMysql()
+	mysql.GetMysqlConnection()
 
 	// Redis 세팅하기
 	redis.InitRedis()
