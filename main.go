@@ -31,5 +31,5 @@ func main() {
 	port := os.Getenv("SERVER_PORT")
 
 	r := router.SetupRouter()
-	r.Run(":" + port)
+	r.Run("0.0.0.0:" + port)
 }
