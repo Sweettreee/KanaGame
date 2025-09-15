@@ -16,13 +16,12 @@ func Init() {
 	if err != nil {
 		panic(fmt.Sprintf(".env파일 불러오기 실패: %v", err))
 	}
+	// Redis 세팅하기
+	redis.InitRedis()
 
 	// Mysql 세팅하기
 	mysql.InitMysql()
-	// mysql.GetMysqlConnection()
 
-	// Redis 세팅하기
-	redis.InitRedis()
 }
 
 func main() {
