@@ -34,6 +34,8 @@ func InitMysql() *sql.DB {
 		log.Fatalf("LoginUser 문 준비 실패: %v", err)
 	}
 
+	log.Println("STMT문 준비 완료")
+
 	return MDB
 }
 
