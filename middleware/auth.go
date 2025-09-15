@@ -2,6 +2,7 @@ package middleware
 
 import (
 	jwt "KanaGame/jwtutils"
+	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -33,5 +34,14 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 		c.Next()
 	}
+}
 
+func RequireAuth() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if isLogin, _ := c.Get("Login"); isLogin == false {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+			return
+		}
+		c.Next()
+	}
 }
