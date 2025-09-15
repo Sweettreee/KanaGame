@@ -20,7 +20,7 @@ var MDB *sql.DB
 var once sync.Once
 
 func InitMysql() *sql.DB {
-	GetMysqlConnection()
+	MDB = GetMysqlConnection()
 
 	var err error
 
