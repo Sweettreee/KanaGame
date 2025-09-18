@@ -37,7 +37,6 @@ func CloseResources() {
 
 func main() {
 	Init()
-	defer CloseResources()
 
 	port := os.Getenv("SERVER_PORT")
 
@@ -65,5 +64,6 @@ func main() {
 	if err := server.Shutdown(ctx); err != nil {
 		log.Fatal("Server Shutdown: ", err)
 	}
+	CloseResources()
 	log.Printf("Server exiting")
 }
