@@ -64,3 +64,14 @@ func GetMysqlConnection() *sql.DB {
 
 	return MDB
 }
+
+func CloseMysql() {
+	if MDB != nil {
+		if err := MDB.Close(); err == nil {
+			panic(fmt.Sprintf("Mysql 연결 닫기 실패: %v", err))
+		} else {
+			log.Printf("Mysql 연결 닫기 성공")
+		}
+		MDB = nil
+	}
+}

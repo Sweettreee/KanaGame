@@ -24,8 +24,14 @@ func Init() {
 
 }
 
+func CloseResources() {
+	redis.CloseRedis()
+	mysql.CloseMysql()
+}
+
 func main() {
 	Init()
+	defer CloseResources()
 
 	port := os.Getenv("SERVER_PORT")
 
