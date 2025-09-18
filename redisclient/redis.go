@@ -35,7 +35,7 @@ func InitRedis() *redis.Client {
 func CloseRedis() {
 	if RDB != nil {
 		if err := RDB.Close(); err == nil {
-			panic(fmt.Sprintf("Redis 연결 닫기 실패: %v", err))
+			log.Printf("Redis 연결 닫기 실패: %v", err)
 		} else {
 			log.Printf("Redis 연결 닫기 성공")
 		}
