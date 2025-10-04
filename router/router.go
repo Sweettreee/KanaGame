@@ -20,7 +20,7 @@ func SetupRouter() *gin.Engine {
 	api := r.Group("/api")
 	public := r.Group("/public")
 
-	api.Use(middleware.AuthMiddleware())
+	r.Use(middleware.AuthMiddleware())
 	game.RegisterGameRouter(public)
 	test.RegisterApiRouter(api)
 
