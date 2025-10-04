@@ -1,4 +1,4 @@
-import * as PIXI from "https://cdn.jsdelivr.net/npm/pixi.js/dist/browser/pixi.mjs";
+import * as PIXI from "https://pixijs.download/release/pixi.mjs";
 
 const app = new PIXI.Application({ width: 800, height: 600, backgroundColor: 0x1099bb });
 document.getElementById('game').appendChild(app.view);
