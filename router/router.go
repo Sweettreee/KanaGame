@@ -10,12 +10,12 @@ import (
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
-	apiGroup := r.Group("/api")
-	gameGroup := r.Group("/game")
+	api := r.Group("/api")
+	public := r.Group("/public")
 
-	apiGroup.Use(middleware.AuthMiddleware())
-	game.RegisterGameRouter(gameGroup)
-	test.RegisterApiRouter(apiGroup)
+	api.Use(middleware.AuthMiddleware())
+	game.RegisterGameRouter(public)
+	test.RegisterApiRouter(api)
 
 	return r
 }
