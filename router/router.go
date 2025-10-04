@@ -2,6 +2,7 @@ package router
 
 import (
 	"KanaGame/middleware"
+	"KanaGame/router/game"
 	"KanaGame/router/test"
 
 	"github.com/gin-gonic/gin"
@@ -9,12 +10,12 @@ import (
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
-	api := r.Group("/api")
-	game := r.Group("/game")
+	apiGroup := r.Group("/api")
+	gameGroup := r.Group("/game")
 
-	api.Use(middleware.AuthMiddleware())
-	game.Use()
-	test.RegisterApiRouter(api)
+	apiGroup.Use(middleware.AuthMiddleware())
+	game.RegisterGameRouter(gameGroup)
+	test.RegisterApiRouter(apiGroup)
 
 	return r
 }
