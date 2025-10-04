@@ -1,9 +1,4 @@
-let app = null;
-
 export async function initLogin(container) {
-
-    destroyLogin(); // 기존 앱이 있으면 제거
-
     // Pixi Application 생성
     app = new PIXI.Application();
     await app.init({
@@ -95,11 +90,6 @@ export async function initLogin(container) {
     // 실제 입력은 HTML input 태그를 겹쳐서 처리하는 방식이 일반적
     // Pixi로만 구현하면 키보드 이벤트 직접 처리 필요
     // ------------------------
-}
 
-export function destroyLogin() {
-    if (app) {
-        app.destroy(true, { children: true, texture: true, baseTexture: true });
-        app = null;
-    }
+    return app;
 }
