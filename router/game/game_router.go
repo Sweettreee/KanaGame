@@ -9,6 +9,6 @@ import (
 func RegisterGameRouter(rg *gin.RouterGroup) {
 	game := rg.Group("game")
 	game.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{})
+		c.HTML(http.StatusOK, "index.html", nil)
 	})
 }
