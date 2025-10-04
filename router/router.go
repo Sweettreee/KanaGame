@@ -11,7 +11,7 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.LoadHTMLGlob("public/templates/*")
-	r.Static("/static", "public/templates/static")
+	r.Static("/static", "public/static")
 	api := r.Group("/api")
 	public := r.Group("/public")
 
