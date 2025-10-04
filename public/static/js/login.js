@@ -1,6 +1,6 @@
 export async function initLogin(container) {
     // Pixi Application 생성
-    app = new PIXI.Application();
+    const app = new PIXI.Application();
     await app.init({
         width: 800,
         height: 600,
