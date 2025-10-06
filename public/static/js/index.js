@@ -1,5 +1,6 @@
 import { initLogin } from "./login.js";
 import { pixiGame } from "./pixi.js";
+import { CreateApp } from "./app.js";
 
 const appDiv = document.getElementById('app');
 let currentPage = null;
@@ -31,9 +32,9 @@ function navigateTo(page) {
         case 'ranking':
             appDiv.innerHTML = `<h1>랭킹 화면</h1><ul><li>1위: PlayerA</li><li>2위: PlayerB</li></ul>`;
             break;
-        case 'pixi':
-            pixiGame(appDiv);
-            break;
+        case 'app':
+            CreateApp();
+            break
     }
 }
 
