@@ -66,4 +66,5 @@ func main() {
 	}
 	CloseResources()
 	log.Printf("Server exiting")
+	// test 1
 }
